@@ -1,0 +1,23 @@
+<launch>
+
+  <arg name="debug" default="false"/>
+  <arg name="run_rviz" default="false" />
+  <arg name="gui" default="false" />
+
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find renbo_whole_body_plan)/launch/planning_context_whole_body.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <!--<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="$(arg gui)"/>
+  </node> -->
+
+  <include if="$(arg run_rviz)" file="$(find renbo_grasp_generator)/launch/capability_map_rviz.launch">
+    <arg name="config" value="true" />
+  </include>
+
+  <node name="build_capability_map" pkg="renbo_grasp_generator" type="build_capability_map" cwd="node" output="screen">
+  </node> 
+
+</launch>
